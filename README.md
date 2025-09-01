@@ -1,2 +1,1 @@
-# DEVOPS
-# Event Registration Microservices Project
+This is a sample message
