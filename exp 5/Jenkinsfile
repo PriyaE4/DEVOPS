@@ -1,0 +1,20 @@
+pipeline {
+  agent any           // Runs the pipeline on any available agent
+  stages {
+    stage('Build'){   // First stage
+      steps{
+        echo 'Building..'  // Prints message in console
+      }
+    }
+    stage('Test'){    // Second stage
+      steps{
+        echo 'Testing...'  // Prints message
+      }
+    }
+    stage('Deploy'){  // Third stage
+      steps{
+        echo 'Deploying.....'  // Prints message
+      }
+    }
+  }
+}
