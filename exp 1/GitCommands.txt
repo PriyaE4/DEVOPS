@@ -1,0 +1,26 @@
+touch filename.extension - creates file
+start filename.extension - opens an existing file
+git rm filename - deletes a file
+git init - to initialize an empty repo
+git config --global user.name "PriyaE4"
+git config --global user.email "23wh1a05e4@bvrithyderabad.edu.in"
+git clone "url" - copying others doc
+git status - list of files in the folder
+git add filename --- for adding specific file (OR)
+git add -A --- for adding all the files
+git commit -m "I have done this in msg"
+git branch "branchname" - creating a branch
+git checkout "branchname" - navigating to other branch
+git push origin "branchname" - to push commits from local repo to github acct.
+
+git clone "forkedname"
+cd forkedname     //fork the repo first to make changes in the copy not the original one.
+git remote set-url origin https://github.com/PriyaE4/Voting-Management-dup.git     //to point/make changes in my copy not in the original one
+git remote -v
+git checkout -b bname
+start filename  
+git status
+git add filename
+git status
+git commit -m "msg"
+git push origin bname     //now send pull request so that this changes are applied to the original repo
