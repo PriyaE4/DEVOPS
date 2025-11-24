@@ -1,0 +1,10 @@
+Project Structure
+event-registration/
+├── index.html	← Frontend Form
+├── server/
+│	├── index.js	← Express Backend
+│	├── models/
+│	│	└── user.js
+│	└── config/
+│	└── db.config.js
+└── package.json
