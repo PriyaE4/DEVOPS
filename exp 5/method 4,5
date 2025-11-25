@@ -1,0 +1,246 @@
+EXP 4:
+Absolutely! Let’s make a **detailed, step-by-step Jenkins installation and setup guide** for **Windows**, including **every small step**, so you can write it exactly in your lab exam. 🔥
+
+---
+
+# **Program 4: Jenkins Installation, Setup, and Environment Exploration**
+
+**Objective:** Install Jenkins, set up the environment, and explore the Jenkins web interface.
+
+---
+
+## **Step 1: Download Jenkins**
+
+1. Open a web browser.
+2. Go to the official Jenkins website: [https://www.jenkins.io](https://www.jenkins.io)
+3. Click **Download**.
+4. Choose the **Windows installer (.msi)** package.
+5. Save the file to your local machine.
+
+---
+
+## **Step 2: Install Jenkins on Windows**
+
+1. Navigate to the folder where the installer is downloaded.
+2. Double-click the **Jenkins installer (.msi)** file.
+3. Click **Next** on the welcome screen.
+
+---
+
+### **Step 2a: Choose Installation Folder**
+
+1. Choose the **destination folder** where Jenkins will be installed.
+2. Default folder is usually `C:\Program Files (Jenkins)`.
+3. Click **Next**.
+
+---
+
+### **Step 2b: Service Logon Credentials**
+
+1. Jenkins can run as a **Windows service**.
+2. Select **Local System Account** or provide a **domain user account**.
+3. Click **Test Credentials** to check login.
+4. Click **Next**.
+
+---
+
+### **Step 2c: Port Selection**
+
+1. Choose the port Jenkins will run on.
+
+   * Default: `8080`
+2. Click **Test Port** to check if the port is available.
+3. Click **Next**.
+
+---
+
+### **Step 2d: Choose Java Home Directory**
+
+1. Jenkins requires **Java** (JDK/JRE) installed.
+2. Select your **Java home directory**.
+
+   * Example: `C:\Program Files\Java\jdk-11.0.x`
+3. Click **Next**.
+
+---
+
+### **Step 2e: Custom Setup (Optional)**
+
+1. Select additional features or integrations if required.
+2. Click **Next**.
+
+---
+
+### **Step 2f: Install Jenkins**
+
+1. Click **Install** to start the installation.
+2. Wait for the installation to complete (may take a few minutes).
+
+---
+
+## **Step 3: Start Jenkins Service**
+
+1. After installation, Jenkins service starts automatically.
+2. To check manually:
+
+   * Press **Windows + R**, type `services.msc` → Enter
+   * Find **Jenkins** in the list.
+   * Ensure the **Status** is **Running**.
+   * If not, right-click → Start.
+
+---
+
+## **Step 4: Access Jenkins Web Interface**
+
+1. Open a web browser.
+2. Go to: `http://localhost:8080`
+3. Jenkins login page appears.
+
+---
+
+### **Step 4a: Get Initial Admin Password**
+
+1. Open **Command Prompt** (as Administrator) or PowerShell.
+2. Run the command:
+
+```bash
+type "C:\Program Files (Jenkins\secrets\initialAdminPassword"
+```
+
+> On Linux, it’s:
+
+```bash
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+3. Copy the **32-character alphanumeric password**.
+4. Paste it into the **Admin password field** on the web interface.
+5. Click **Continue**.
+
+---
+
+## **Step 5: Initialize Jenkins Environment**
+
+1. Choose **Install suggested plugins**.
+2. Jenkins will download and install plugins automatically.
+3. Wait until installation completes.
+
+---
+
+## **Step 6: Create First Admin User**
+
+1. Enter the following details:
+
+   * **Username:** admin (or any name)
+   * **Password:** your secure password
+   * **Full Name:** Your Name
+   * **Email:** Your Email
+2. Click **Save and Continue**.
+
+---
+
+## **Step 7: Configure Jenkins URL**
+
+1. Jenkins asks for **Jenkins URL**.
+
+   * Default: `http://localhost:8080/`
+2. Verify the URL.
+3. Click **Save and Finish**.
+
+---
+
+## **Step 8: Jenkins Ready**
+
+1. Jenkins setup is complete.
+2. Click **Start using Jenkins**.
+3. Jenkins **Dashboard** opens.
+
+---
+
+## **Step 9: Explore Jenkins Environment**
+
+1. **Dashboard Menu:**
+
+   * **New Item** → Create new jobs/projects.
+   * **People** → List of users.
+   * **Build History** → Shows previous builds.
+   * **Manage Jenkins** → Admin tasks and configuration.
+
+2. **Manage Jenkins Options:**
+
+   * **System Configuration** → Configure global settings.
+   * **Manage Plugins** → Install or update Jenkins plugins.
+   * **Security Settings** → Manage users, roles, and access.
+
+3. **Build Jobs:**
+
+   * Create a **freestyle project**.
+   * Add **source code repository** (GitHub/Bitbucket).
+   * Add **build steps** (like shell commands or scripts).
+   * Click **Build Now** to test.
+
+---
+
+✅ **Summary Table for Exam**
+
+| Step | Action                                                                                    |
+| ---- | ----------------------------------------------------------------------------------------- |
+| 1    | Download Jenkins from [https://www.jenkins.io](https://www.jenkins.io)                    |
+| 2    | Run installer → choose folder → set service account → select port → choose Java → install |
+| 3    | Start Jenkins service (Services Manager)                                                  |
+| 4    | Open browser → [http://localhost:8080](http://localhost:8080) → get initial password      |
+| 5    | Install suggested plugins                                                                 |
+| 6    | Create first admin user                                                                   |
+| 7    | Configure Jenkins URL → Save & Finish                                                     |
+| 8    | Dashboard opens → ready to use                                                            |
+| 9    | Explore jobs, plugins, build history, users, and manage Jenkins                           |
+
+---
+
+If you want, I can also **make a 1-page “exam-ready step list with commands and screenshots”** you can **write directly in your practical exam**.
+
+Do you want me to do that?
+
+
+
+
+
+
+
+
+
+Program 5: Demonstrate continuous integration and development using Jenkins.
+
+Aim: CI/CD pipeline with a GitHub repository:
+
+•	Login to the GitHub account.
+•	Next, navigate to the repository url, suppose MyShuttle2. Once you are on the repo page, click the Fork button
+•	Add a new file to the repository named Jenkinsfile. A Jenkinsfile is a text file that contains the definition of a Jenkins Pipeline. This file should be inside the source code repository.
+•	Type the pipeline script in Jenkinsfile as the name of the new file.
+Press commit new file, at the bottom of the page.
+•	This will show the jenkinsfile in your repository.
+•	As you will need the resulting URL during the Jenkins CI CD pipeline creation, copy the repository URL.
+
+Creating Jenkins CI CD Pipeline:
+
+Step 1: Login into your Jenkins account as shown below.
+
+Step 2. To create a new project select the option available in the Dashboard which is “New Item” Refer to the image provided below:
+
+Step 3. Now a list of options will be visible on the screen, along with a field to name the pipeline. Add a suitable name and select the “Pipeline” option to proceed.
+ 
+Step 4. Now comes the second section, i.e. “General”. Here, we need to specify the branch and repository and give the credentials too. And add additional behaviors if required so far.
+
+Step 5. This is the last section i.e. “Pipeline”. Here the user specifies from where the scripts will be imported including the path to the file, repository, credentials, etc.
+•	Confirm that the Script Path value is Jenkinsfile. This value refers the Jenkinsfile you created earlier, click Save.
+ 
+Step 6. After writing the pipeline is done click on save it will be directly redirected to the Dashboard of the project there we can use, the “Build Now” option to run the pipeline and check if it is successful or not, by using stage view or console output.
+we can see the outcome of the pipeline in the stage view where as shown in the image below.
+And we can also see the console output where we can see logs of each and every step which is performed.
+
+Click on the console output to see the logs of each and every stage that is performed by using the pipeline.
+Scroll down to the end of the console output there we can see the status of the pipeline if it is “Finished: success” . The pipeline which we have written was a success.
+
+
+
+
