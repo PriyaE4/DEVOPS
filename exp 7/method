@@ -1,0 +1,344 @@
+Program 8 – Integrate Kubernetes and Docker
+We’ll be using these versions:
+•	Windows 10/11 (64-bit)
+•	Docker Desktop (latest)
+•	Kubernetes (enabled via Docker Desktop)
+•	kubectl (automatically installed by Docker)
+________________________________________
+🧱 COMPLETE SETUP GUIDE — “Integrate Kubernetes and Docker”
+________________________________________
+🪄 Step 1 — Install Docker Desktop
+1.	Go to 👉 https://www.docker.com/products/docker-desktop/
+2.	Download Docker Desktop for Windows (x86_64) — it’s the correct one for Intel/AMD 64-bit systems.
+3.	Run the downloaded installer (Docker Desktop Installer.exe).
+4.	In the installation wizard:
+o	✅ Check both boxes:
+	Use WSL 2 instead of Hyper-V
+	Add shortcut to desktop
+o	Click OK → installation will start.
+5.	Once it finishes, restart your computer when asked.
+________________________________________
+🪄 Step 2 — Verify Docker Installation
+After restarting:
+1.	Open Docker Desktop from the Start Menu.
+2.	You’ll see “Docker is starting…” → then “Docker is running ✅”.
+3.	To confirm it’s working:
+o	Open Command Prompt (CMD) and type:
+o	docker --version
+✅ Expected output:
+Docker version 27.x.x, build ...
+4.	Now check with a test container:
+5.	docker run hello-world
+✅ Expected output:
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+________________________________________
+🪄 Step 3 — Enable WSL 2 (if prompted)
+If Docker shows:
+“WSL 2 installation is incomplete”
+Run these commands (as Administrator in PowerShell):
+wsl --install
+wsl --update
+Then restart your PC again.
+After reboot, open Docker Desktop → it should say “Docker is running”.
+________________________________________
+🪄 Step 4 — Enable Kubernetes in Docker Desktop
+1.	Open Docker Desktop.
+2.	Click ⚙️ Settings (top-right).
+3.	In the left sidebar, click Kubernetes.
+4.	Tick the box: ✅ Enable Kubernetes.
+5.	Click Apply & Restart.
+🕐 Wait 3–10 minutes while Docker downloads and configures Kubernetes components (you’ll see “Kubernetes is starting…”).
+When it finishes, it will say:
+Kubernetes is running ✅
+🎉 You’ve successfully enabled Kubernetes locally.
+________________________________________
+🪄 Step 5 — Verify Kubernetes Installation
+Now test from Command Prompt (CMD) or PowerShell.
+1️⃣ Check the version:
+kubectl version --client
+✅ Output example:
+Client Version: v1.30.x
+Kustomize Version: v5.x.x
+2️⃣ Check nodes in your cluster:
+kubectl get nodes
+✅ Expected output:
+NAME             STATUS   ROLES                  AGE     VERSION
+docker-desktop   Ready    control-plane,master   2m3s    v1.30.x
+________________________________________
+🪄 Step 6 — Run a Test Deployment (optional but useful)
+Run this command to deploy a sample NGINX web server in Kubernetes:
+kubectl create deployment nginx-deploy --image=nginx
+Expose it so it can be accessed:
+kubectl expose deployment nginx-deploy --port=80 --type=LoadBalancer
+Now check:
+kubectl get all
+✅ You’ll see:
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/nginx-deploy-...                1/1     Running   0          1m
+
+NAME                 TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+service/nginx-deploy LoadBalancer   10.96.154.2      localhost     80:32456/TCP   1m
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/nginx-deploy   1/1     1            1           1m
+________________________________________
+🪄 Step 7 — Access the Application
+To get the running app URL, type:
+kubectl get svc
+Then open your browser and go to:
+👉 http://localhost:80
+You’ll see the Nginx welcome page — this proves Docker + Kubernetes integration works perfectly ✅
+________________________________________
+🧹 Step 8 — Uninstallation / Cleanup Steps
+When you’re done testing or want to remove everything:
+________________________________________
+🔸 A. Stop & Remove Kubernetes Components
+1.	Open Docker Desktop → Settings → Kubernetes
+2.	Uncheck Enable Kubernetes
+3.	Click Apply & Restart
+o	This stops and removes all Kubernetes containers and settings.
+________________________________________
+🔸 B. Remove Docker Containers & Images
+Open Command Prompt (Administrator) and run:
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker rmi $(docker images -q)
+________________________________________
+🔸 C. Uninstall Docker Desktop
+1.	Go to Control Panel → Programs → Uninstall a program
+2.	Find Docker Desktop
+3.	Right-click → Uninstall
+4.	When asked, check “Remove all data” → confirm.
+________________________________________
+🔸 D. Remove WSL Data (optional but complete cleanup)
+1.	Open PowerShell (Admin):
+2.	wsl --unregister docker-desktop
+3.	wsl --unregister docker-desktop-data
+4.	You can also remove leftover folders:
+5.	C:\Users\<YourName>\.docker
+6.	C:\Users\<YourName>\AppData\Local\Docker
+________________________________________
+✅ FINAL OUTPUT (as per your file)
+When everything is set up correctly, you’ll get output like this when you verify:
+kubectl get nodes
+✅ Output:
+NAME             STATUS   ROLES                  AGE   VERSION
+docker-desktop   Ready    control-plane,master   2m    v1.30.x
+This confirms:
+•	Docker Desktop is installed
+•	Kubernetes is enabled
+•	Both are integrated and running perfectly
+________________________________________
+Would you like me to make a PDF version of this step-by-step setup and uninstall guide (with checkboxes and command blocks) so you can directly attach it to your lab record or report submission?
+
+
+
+
+
+
+
+
+
+Exp 7 Integrate Docker and Kubernetes
+“Develop a simple containerized application using Docker.”
+You’ll be building a small Flask (Python) web app, putting it inside a Docker container, running it, and finally removing everything cleanly.
+Below is the full, detailed step-by-step guide (even the tiniest clicks) so you’ll get exactly the same output shown in your file — “Hello, Docker World!” — and also learn how to uninstall everything afterward.
+________________________________________
+🧩 FULL INSTALLATION + EXECUTION + CLEANUP GUIDE
+________________________________________
+⚙️ 1️⃣ Install Python 3.11
+1.	Go to: https://www.python.org/downloads/release/python-3110/
+2.	Scroll to the Files section.
+3.	Download Windows x86-64 executable installer (26–27 MB).
+4.	Double-click the downloaded file →
+✅ Check “Add Python 3.11 to PATH” → click Install Now.
+5.	When it finishes, open Command Prompt → check:
+6.	python --version
+✅ Output should show Python 3.11.x.
+________________________________________
+🐋 2️⃣ Install Docker Desktop (for Windows)
+1.	Go to: https://www.docker.com/products/docker-desktop/
+2.	Click Download for Windows (x86-64).
+3.	Run the installer.
+4.	Keep the default options:
+o	✅ Use WSL 2 instead of Hyper-V
+o	✅ Add shortcut to desktop
+5.	After installation, restart your PC.
+6.	Launch Docker Desktop → wait until it says
+7.	Docker is running
+8.	Test it in Command Prompt:
+9.	docker --version
+10.	docker run hello-world
+✅ If you see “Hello from Docker!”, Docker works correctly.
+________________________________________
+🧱 3️⃣ Create Project Folder and Files
+1.	Open Command Prompt and run:
+2.	mkdir C:\flask-docker-app
+3.	cd C:\flask-docker-app
+4.	Create app.py inside that folder with this content:
+5.	from flask import Flask
+6.	app = Flask(__name__)
+7.	
+8.	@app.route('/')
+9.	def hello():
+10.	    return "Hello, Docker World!"
+11.	
+12.	if __name__ == '__main__':
+13.	    app.run(host='0.0.0.0', port=5000)
+14.	Create requirements.txt in the same folder:
+15.	Flask==2.3.2
+✅ Folder structure now:
+C:\flask-docker-app
+ ├── app.py
+ └── requirements.txt
+________________________________________
+🧾 4️⃣ Create the Dockerfile
+In the same folder, create a file named Dockerfile (without any extension):
+
+Perfect 👍 — that’s a very common confusion in Windows, because by default it hides file extensions (like .txt), so when you try to make Dockerfile, it often becomes Dockerfile.txt.
+Let me show you clearly how to create a file without any extension — so it’s exactly named Dockerfile (no .txt, nothing extra).
+________________________________________
+🧩 Option 1 — Using Notepad (simple and safe)
+🪄 Step-by-Step:
+1.	Open Notepad
+Press Windows + R, type:
+2.	notepad
+and press Enter.
+3.	Paste your Dockerfile content, for example:
+4.	FROM python:3.11-slim
+5.	WORKDIR /app
+6.	COPY requirements.txt .
+7.	RUN pip install --no-cache-dir -r requirements.txt
+8.	COPY app.py .
+9.	EXPOSE 5000
+10.	CMD ["python", "app.py"]
+11.	Click File → Save As…
+12.	In the Save dialog:
+o	Navigate to your project folder, e.g.
+C:\flask-docker-app
+o	In the File name box, type:
+o	"Dockerfile"
+(include the quotation marks — they are very important!)
+o	In Save as type, choose:
+o	All Files (*.*)
+o	Click Save ✅
+💡 The quotes force Notepad to save it exactly as Dockerfile without adding .txt.
+________________________________________
+🧩 Option 2 — Using Command Prompt
+If you prefer command line:
+cd C:\flask-docker-app
+type nul > Dockerfile
+Then open it in Notepad:
+notepad Dockerfile
+Paste your code, save, and close.
+________________________________________
+🧩 Option 3 — Using VS Code (best for coding)
+1.	Open VS Code.
+2.	Go to File → New File.
+3.	Paste your Dockerfile content.
+4.	Click File → Save As...
+5.	Name it:
+6.	Dockerfile
+and click Save.
+________________________________________
+✅ To confirm it’s correct:
+Open Command Prompt inside your folder and type:
+dir
+You should see:
+Dockerfile
+app.py
+requirements.txt
+(no .txt after Dockerfile)
+________________________________________
+Once this is done, you can safely run:
+docker build -t fd-app .
+and it will work 🎉
+________________________________________
+Would you like me to show the exact content you should paste inside your Dockerfile again (just to be 100% sure it’s the right one for your experiment)?
+
+# Use official Python image as base
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements file and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the app code
+COPY app.py .
+
+# Expose the port the app runs on
+EXPOSE 5000
+
+# Command to run the app
+CMD ["python", "app.py"]
+✅ Final folder:
+C:\flask-docker-app
+ ├── app.py
+ ├── requirements.txt
+ └── Dockerfile
+________________________________________
+🔨 5️⃣ Build the Docker Image
+1.	In Command Prompt, ensure you’re inside the folder:
+2.	cd C:\flask-docker-app
+3.	Run the build command:
+4.	docker build -t flask-docker-app .
+o	-t = tag (name of your image)
+o	. = current directory
+5.	Wait till you see:
+6.	Successfully built <image_id>
+7.	Successfully tagged flask-docker-app:latest
+8.	Verify:
+9.	docker images
+✅ You’ll see:
+REPOSITORY         TAG       IMAGE ID       CREATED         SIZE
+flask-docker-app   latest    abcd1234efgh   few seconds ago 125MB
+________________________________________
+🚀 6️⃣ Run the Docker Container
+1.	Start the container:
+2.	docker run -p 5000:5000 flask-docker-app
+Explanation:
+o	-p 5000:5000 → maps port 5000 of container to port 5000 of your PC.
+3.	It’ll show logs like:
+4.	* Running on all addresses (0.0.0.0)
+5.	* Running on http://127.0.0.1:5000
+6.	Now open your browser and go to 👉 http://localhost:5000
+✅ Output on the browser:
+Hello, Docker World!
+🎉 That means your Flask app is running inside a Docker container successfully!
+________________________________________
+📋 7️⃣ Check Running Containers and Stop Them
+Open another Command Prompt and type:
+docker ps
+✅ Output:
+CONTAINER ID   IMAGE             COMMAND          STATUS         PORTS
+abcd1234efgh   flask-docker-app  "python app.py"  Up 3 minutes   0.0.0.0:5000->5000/tcp
+To stop it:
+docker stop abcd1234efgh
+(or use just the first 3-4 characters of the container ID)
+________________________________________
+🧹 8️⃣ Uninstallation / Cleanup Steps
+When you’re done with the experiment and want a clean system again 👇
+🔸 Stop and Remove Container
+docker ps -a
+docker stop <container_id>
+docker rm <container_id>
+🔸 Remove Image
+docker images
+docker rmi flask-docker-app
+🔸 Uninstall Docker Desktop
+1.	Control Panel → Programs → Uninstall a program
+2.	Select Docker Desktop → click Uninstall
+3.	Check “Remove all data” if asked.
+🔸 Delete Leftover Folders (optional)
+Remove these manually if you want:
+C:\Users\<YourName>\.docker
+C:\Users\<YourName>\AppData\Local\Docker
+________________________________________
+✅ FINAL OUTPUT (Same as your file)
+When you run the container and open the browser:
+Output on screen:
+Hello, Docker World!
