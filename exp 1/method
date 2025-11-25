@@ -8,3 +8,11 @@ event-registration/
 │	└── config/
 │	└── db.config.js
 └── package.json
+
+
+
+cd server
+npm init -y
+npm install express sequelize mysql2 cors body-parser
+npm index.js
+index.html
