@@ -1,0 +1,101 @@
+Program 6: Docker
+
+Sure! Let’s go one by one, and I’ll explain each Docker command in very simple language with examples so it’s easy to understand.
+________________________________________
+1. docker --version
+•	Purpose: Checks which version of Docker is installed on your system.
+•	Example:
+docker --version
+•	Output example: Docker version 24.0.5, build abc123
+•	Explanation: This tells you Docker is installed and which version it is. Useful before running other commands to ensure your Docker is up-to-date.
+________________________________________
+2. docker pull <image-name>
+•	Purpose: Downloads a Docker image from Docker Hub to your local machine.
+•	Example:
+docker pull nginx
+•	Explanation:
+o	Here, nginx is the name of the image.
+o	After running this, the image is available locally, so you can run containers from it.
+•	Tip: If you don’t pull an image, Docker automatically downloads it when you run a container.
+________________________________________
+3. docker ps
+•	Purpose: Lists all currently running containers.
+•	Example:
+docker ps
+•	Output columns:
+o	CONTAINER ID → unique ID of the container
+o	IMAGE → image used to create the container
+o	STATUS → whether the container is running
+•	Explanation: Lets you see which containers are actively running.
+________________________________________
+4. docker ps -a
+•	Purpose: Lists all containers, including running and stopped/exited.
+•	Example:
+docker ps -a
+•	Explanation: This helps you find containers that ran previously but are now stopped. You might want to restart or remove them later.
+________________________________________
+5. docker exec -it <container-id> bash
+•	Purpose: Access a running container’s terminal.
+•	Example:
+docker exec -it 123abc bash
+•	Explanation:
+o	123abc → container ID.
+o	bash → opens a Linux shell inside the container.
+•	Use case: Useful for debugging or running commands inside a container.
+________________________________________
+6. docker stop <container-id>
+•	Purpose: Stops a running container gracefully.
+•	Example:
+docker stop 123abc
+•	Explanation:
+o	Docker tells the container to stop its processes cleanly.
+o	Recommended way to stop containers to avoid data loss.
+________________________________________
+7. docker kill <container-id>
+•	Purpose: Stops a container immediately, without waiting.
+•	Example:
+docker kill 123abc
+•	Difference from docker stop:
+o	stop → waits for container to shut down gracefully.
+o	kill → stops it instantly (like an emergency stop).
+________________________________________
+8. docker images
+•	Purpose: Lists all Docker images downloaded locally.
+•	Example:
+docker images
+•	Output columns:
+o	REPOSITORY → image name
+o	TAG → version of image (like latest)
+o	IMAGE ID → unique ID of image
+o	SIZE → size of image
+•	Explanation: Helps you see which images are available to run containers or remove if not needed.
+________________________________________
+9. docker rm <container-id>
+•	Purpose: Deletes a stopped container.
+•	Example:
+docker rm 123abc
+•	Explanation:
+o	Containers take up disk space.
+o	You cannot remove a running container with this command; it must be stopped first.
+•	Tip: Remove multiple containers at once:
+docker rm 123abc 456def
+________________________________________
+10. docker rmi <image-id>
+•	Purpose: Deletes a Docker image from local storage.
+•	Example:
+docker rmi nginx
+•	Explanation:
+o	Frees up space if you no longer need the image.
+o	You cannot delete an image if containers are still using it.
+________________________________________
+✅ Summary in Simple Words:
+•	docker --version → check Docker version
+•	docker pull → download image
+•	docker ps → running containers
+•	docker ps -a → all containers (running + stopped)
+•	docker exec -it → enter a container
+•	docker stop → stop container safely
+•	docker kill → stop container immediately
+•	docker images → list downloaded images
+•	docker rm → delete stopped container
+•	docker rmi → delete image
