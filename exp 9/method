@@ -1,0 +1,249 @@
+EXP 9 Automate the process of running containerized applications for exercise 7 using Kubernetes.
+Absolutely! Let’s start from the very base level — as if you have zero knowledge.
+By the end, you will clearly understand what “container”, “Docker”, “Kubernetes”, and “orchestration” mean — in simple words.
+________________________________________
+🧠 What Is the Problem in the Real World?
+Suppose you create a Python app and want to give it to others or deploy it online.
+But different computers have:
+•	Different versions of Python
+•	Different libraries
+•	Different settings
+➡ Your app may work on your PC but fail on theirs → “Works on my system!” problem.
+________________________________________
+📦 Solution: Containers (Docker)
+A container is like a box that holds:
+✔ Your code
+✔ Required libraries
+✔ Python version
+✔ Perfect environment
+So wherever you run this box, your app will always work.
+👉 We use Docker to create this box = Docker Container
+________________________________________
+🚢 Docker = Shipping System for Software
+•	Docker helps us pack our application into a container
+•	We can ship it anywhere — cloud, server, other PC
+•	It works exactly the same everywhere
+⚠️ But one problem:
+What if we need 10 containers? Or 100? Or restart automatically if they crash?
+Docker cannot manage many containers alone.
+________________________________________
+🤖 This is where Kubernetes comes in!
+Kubernetes = Container Orchestration System
+📌 Orchestration = Automatically managing multiple containers
+Just like a music orchestra has a conductor who manages all musicians…
+👉 Kubernetes is like the conductor that manages all containers!
+________________________________________
+🎯 What Kubernetes Can Do (Automatically)
+Need	Kubernetes does it
+Start containers	✔ Yes
+Restart if crash	✔ Yes
+Create 10 copies	✔ Yes
+Load balance traffic	✔ Yes
+Expose app to users	✔ Yes
+Deploy new version	✔ Yes
+________________________________________
+📌 Simple Real-Life Example
+Imagine Swiggy or Zomato app:
+•	Thousands of users opening it at the same time
+•	App must run on many servers & containers
+•	If a container crashes → Should restart automatically
+•	If more users → Must create MORE containers
+👉 THIS is done by Kubernetes
+________________________________________
+💡 Main Concepts — in Simple Words
+Term	Meaning
+Container	Box containing app + environment
+Docker	Creates/ships containers
+Kubernetes	Manages many containers
+Pod	Smallest container in Kubernetes
+Deployment	Instruction: how many Pods to run
+Service	Opens port so user can access app
+________________________________________
+🔁 Our Experiment – What Did We Do?
+Step	What We Did	Why?
+Write Python app	app.py	Our application
+Create Dockerfile	Defined container	Pack environment
+Build Docker image	docker build	Created container
+Enable Kubernetes	Docker Desktop	Create cluster
+Write YAML files	deployment + service	Tell Kubernetes what to do
+Apply them	kubectl apply	Deploy app
+Access app	via browser	Verify deployment
+________________________________________
+⚡ Final Understanding
+✔ Docker = Packs app into containers
+✔ Kubernetes = Manages those containers
+✔ Orchestration = Automatic management of containers
+✔ Purpose = Run apps reliably even in big companies
+________________________________________
+🌟 YOU HAVE ACTUALLY DONE MINI REAL DEVOPS!
+You already used:
+•	Docker
+•	Kubernetes
+•	Deployment
+•	Services
+•	CLI commands
+This is same process followed by Amazon, Netflix, Google! 🔥
+________________________________________
+Want an experiment report for submission? Or diagram? I can prepare it for you. 😊
+
+which means instead of manually starting containers, Kubernetes will create, manage, scale, and restart them automatically.
+Perfect! Let’s do this without Minikube, using Docker Desktop’s built-in Kubernetes (or any other existing K8s cluster). I’ll give you a step-by-step guide, starting from your C:\kubeapp folder.
+________________________________________
+Step 0: Prerequisites
+1.	Docker Desktop installed → enable Kubernetes in settings:
+o	Open Docker Desktop → Settings → Kubernetes → Check Enable Kubernetes → Apply & Restart
+o	Wait until Kubernetes shows Running.
+2.	kubectl installed → Docker Desktop usually comes with it. Check:
+3.	kubectl version --client
+4.	Docker Hub account (for pushing images).
+________________________________________
+Step 1: Flask App
+Create app.py in C:\kubeapp:
+from flask import Flask
+import os
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    name = os.getenv('NAME', 'World')
+    return f'Hello, {name}!'
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
+
+Code Part	Meaning (in English)
+from flask import Flask	Import Flask framework
+import os	Import OS module to read environment variable
+app = Flask(__name__)	Create Flask application object
+@app.route('/')	Define URL path — homepage (/)
+def hello():	Function that runs when someone opens /
+os.getenv('NAME', 'World')	Get name from environment variable, default = World
+return f'Hello, {name}!'	Show output on browser
+app.run(host='0.0.0.0', port=80)	Start the web server
+
+Flask is a lightweight Python web framework.
+It defines a route (/) and starts a web server.
+It uses environment variables for dynamic response.
+
+Create requirements.txt:
+flask
+________________________________________
+
+
+Step 2: Dockerfile
+In C:\kubeapp:
+FROM python:3.9-slim
+WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 80
+ENV NAME World
+CMD ["python", "app.py"]
+
+Line	Meaning (in normal words)
+FROM python:3.9-slim	Use Python base image
+WORKDIR /app	Set default folder inside container
+COPY . /app	Copy all files into container
+RUN pip install ...	Install required Python libraries
+EXPOSE 80	Open port 80 for web access
+ENV NAME World	Create environment variable
+CMD ["python", "app.py"]	Start Python program
+
+Dockerfile creates container image.
+It uses a base image, sets working directory, copies files, installs dependencies, exposes port, sets environment variable, and runs the Python file.
+________________________________________
+Step 3: Build & Test Docker Image Locally
+1.	Build the image:
+docker build -t my-python-app .
+2.	Test locally (optional):
+docker run -p 8080:80 my-python-app
+Open browser → http://localhost:8080 → Should see Hello, World!
+Press Ctrl+C to stop.
+•	Then we pushed it to Docker Hub so Kubernetes can access it.
+👉 Why?
+Kubernetes only runs Docker containers, so we must provide a ready-made image.
+•	Clicked Create cluster / Enable Kubernetes
+•	Docker created a single-node Kubernetes cluster on your laptop.
+👉 Why?
+Kubernetes needs a cluster to run apps.
+________________________________________
+Step 4: Push Image to Docker Hub
+1.	Login:
+docker login
+2.	Tag the image:
+docker tag my-python-app:latest priyamvadaae4/my-python-app:latest
+3.	Push:
+docker push priyamvadaae4/my-python-app:latest
+________________________________________
+Step 5: Kubernetes Deployment
+Create deployment.yaml in C:\kubeapp:
+Creates PODs (running containers)
+🔹 Makes sure the app keeps running
+🔹 Can create multiple copies (replicas)
+Code:-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-python-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-python-app
+  template:
+    metadata:
+      labels:
+        app: my-python-app
+    spec:
+      containers:
+      - name: my-python-app
+        image: priyamvadaae4/my-python-app:latest
+        ports:
+        - containerPort: 80
+Replace priyamvadaae4 with your Docker Hub username.
+________________________________________
+Step 6: Kubernetes Service
+Create service.yaml:
+🔹 Exposes the app to users
+🔹 We used NodePort, so we can access it via:
+http://localhost:<port>
+👉 Why?
+Kubernetes does not automatically expose apps — Service is required.
+Code:-
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-python-app-service
+spec:
+  selector:
+    app: my-python-app
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+Note: On Docker Desktop, LoadBalancer will work differently — you can access the service using localhost with a NodePort automatically assigned.
+________________________________________
+Step 7: Apply Deployment & Service
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+This is like telling Kubernetes:
+“Here is my app. Please run it and expose it!”
+
+Check status:
+kubectl get deployments
+kubectl get pods   →  shows running containers
+kubectl get svc    →  shows how to access the app________________________________________
+Step 8: Access the App
+Option 1: Using Service NodePort
+1.	Find the NodePort assigned to your service:
+kubectl get svc my-python-app-service
+or
+kubectl get svc my-python-app-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+You’ll see something like:
+NAME	TYPE	CLUSTER-IP	EXTERNAL-IP	PORT(S)
+my-python-app-service	LoadBalancer	10.0.0.123		80:31234/TCP
+				
+2.	Open browser → kubectl edit svc my-python-app-service -> change type using --------- type: NodePort ----> kubectl get svc
+3.	http://localhost:31234 (the NodePort)
+You should see Hello, World!
